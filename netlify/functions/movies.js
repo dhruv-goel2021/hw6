@@ -21,40 +21,46 @@ exports.handler = async function(event) {
   // 🔥 hw6: your recipe and code starts here!
   let year = event.queryStringParameters.year
   let genre = event.queryStringParameters.genre
-  
-  if (year == undefined || genre == undefined) {
-    return {
-      statusCode: 200, // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
-      body: `Nope!` // a string of data
-    }
-  }
-  else {
-    let returnValue = {
-      numResults: 0,
-      movies: []
-    }
 
+// make an array that will be returned by API
+let returnValue = []
+
+if (year == undefined || genre == undefined) {
+  return {
+    statusCode: 200, // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+    body: `Nope!` // a string of data
+  }
+}
+else {
+  let returnValue = {
+    numResults: 0,
+    movies: []
+  }
+    
     for (let i=0; i < moviesFromCsv.length; i++) {
  
-  // store each listing in memory
+  // store each movie in memory
  let movie = moviesFromCsv[i]
-// Create a new post object containing the pertinent fields
-//console.log(subredditPosts)
-let relevantMovie = {movie.primaryTitle, 
-                    movie.year,
-                    movie.genre}
-// Add (push) the post object to the final Array
-returnValue.push(relevantMovie)
- 
-}
 
-
+if (movie.year.includes(${year},0) && movie.genre.includes(${genre},0) ) 
+    {
+      let outputMovies = {
+        url:movie.url,
+        title: movie.primaryTitle,
+        year: movie.startYear,
+        genre: movie.genres 
+      }
     }
 
+  // add the movies to the Array of movies to return
+  returnValue.push(outputMovies)
+ }
+}
     // a lambda function returns a status code and a string of data
     return {
       statusCode: 200, // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
       body: JSON.stringify(returnValue) // a string of data
     }
+  
   }
-}
+
