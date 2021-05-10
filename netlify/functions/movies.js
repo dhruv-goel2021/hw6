@@ -35,13 +35,26 @@ exports.handler = async function(event) {
     }
 
     for (let i=0; i < moviesFromCsv.length; i++) {
+ 
+  // store each listing in memory
+ let movie = moviesFromCsv[i]
+// Create a new post object containing the pertinent fields
+//console.log(subredditPosts)
+let relevantMovie = {movie.primaryTitle, 
+                    movie.year,
+                    movie.genre}
+// Add (push) the post object to the final Array
+returnValue.push(relevantMovie)
+ 
+}
+
 
     }
 
     // a lambda function returns a status code and a string of data
     return {
       statusCode: 200, // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
-      body: `Hello from the back-end!` // a string of data
+      body: JSON.stringify(returnValue) // a string of data
     }
   }
 }
